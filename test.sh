@@ -1,0 +1,1 @@
+cd src/tests && go test -v
