@@ -26,9 +26,9 @@ func ScrapeLink() http.HandlerFunc {
 			return
 		}
 
-		// document := scrapeservice.ScrapeLink(p.Link)
-		links := scrapeservice.ScrapeFirstPageLinks(p.Link)
-		json.NewEncoder(w).Encode(links)
+		document := scrapeservice.ScrapeLink(p.Link)
+		// links := scrapeservice.ScrapeFirstPageLinks(p.Link)
+		json.NewEncoder(w).Encode(document)
 	}
 }
 
@@ -43,10 +43,10 @@ func ScrapeDomain() http.HandlerFunc {
 			return
 		}
 
-		// document := scrapeservice.ScrapeLink(p.Link)
-		links := scrapeservice.ScrapeFirstPageLinks(p.Link)
+		document := scrapeservice.ScrapeLink(p.Link)
+		// links := scrapeservice.ScrapeFirstPageLinks(p.Link)
 
 		// TODO. Save Into DB
-		json.NewEncoder(w).Encode(links)
+		json.NewEncoder(w).Encode(document)
 	}
 }
