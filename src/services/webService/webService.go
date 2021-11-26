@@ -27,7 +27,6 @@ func ScrapeLink() http.HandlerFunc {
 		}
 
 		document := scrapeservice.ScrapeLink(p.Link)
-		// links := scrapeservice.ScrapeFirstPageLinks(p.Link)
 		json.NewEncoder(w).Encode(document)
 	}
 }

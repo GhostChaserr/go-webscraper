@@ -25,8 +25,6 @@ func main() {
 	router.HandleFunc("/", loggermiddleware.LoggerMiddleware(webservice.HealthCheckHandler())).Methods("GET")
 	router.HandleFunc("/scrape-link", webservice.ScrapeLink()).Methods("POST")
 
-	fmt.Println("Booting server .....")
-
 	// Registering cron Jobs
 
 	c := cors.New(cors.Options{

@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "db-version": "migrate -database 'clickhouse://localhost:9000?x-multi-statement=true' -path ./migrations version",
+    "migrate-up1": "migrate -database 'clickhouse://localhost:9000?x-multi-statement=true' -path ./migrations up 1",
+    "migrate-down1": "migrate -database 'clickhouse://localhost:9000?x-multi-statement=true' -path ./migrations down 1",
+    "migrate-down-all": "migrate -database 'clickhouse://localhost:9000?x-multi-statement=true' -path ./migrations down",
+    "migrate-up-all": "migrate -database 'clickhouse://localhost:9000?x-multi-statement=true' -path ./migrations up",
+    "force-version": "migrate -database 'clickhouse://localhost:9000?x-multi-statement=true' -path ./migrations force 1"
+  }
+}
