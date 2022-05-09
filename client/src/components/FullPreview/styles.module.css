@@ -1,0 +1,10 @@
+.container {
+  width: 100vw;
+}
+
+.report_container {
+  max-width: 800px;
+  margin: auto;
+  border: 1px solid black;
+  margin-top: 100px;
+}

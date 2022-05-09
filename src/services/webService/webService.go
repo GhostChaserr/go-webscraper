@@ -18,16 +18,23 @@ func HealthCheckHandler() http.HandlerFunc {
 func ScrapeLink() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-type", "application/json")
-		var p scrapelinkpayload.ScrapeLinkPayload
 
-		err := json.NewDecoder(r.Body).Decode(&p)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
+		if r.Method == "POST" {
+			var p scrapelinkpayload.ScrapeLinkPayload
+			err := json.NewDecoder(r.Body).Decode(&p)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+
+			document := scrapeservice.ScrapeLink(p.Link)
+			json.NewEncoder(w).Encode(document)
+
+		} else if r.Method == "GET" {
+			link := r.URL.Query().Get("link")
+			document := scrapeservice.ScrapeLink(link)
+			json.NewEncoder(w).Encode(document)
 		}
-
-		document := scrapeservice.ScrapeLink(p.Link)
-		json.NewEncoder(w).Encode(document)
 	}
 }
 

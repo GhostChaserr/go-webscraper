@@ -14,7 +14,6 @@ func ScrapeFirstPageLinks(domain string) []string {
 	c := colly.NewCollector(colly.MaxDepth(1))
 
 	document := new(document.Document)
-
 	c.Limit(&colly.LimitRule{
 		Parallelism: 2,
 		Delay:       5 * time.Second,
@@ -40,6 +39,7 @@ func ScrapeLink(link string) document.Document {
 	c := colly.NewCollector(colly.MaxDepth(1))
 
 	document := new(document.Document)
+	document.Link = link
 
 	c.Limit(&colly.LimitRule{
 		Parallelism: 2,
@@ -53,7 +53,12 @@ func ScrapeLink(link string) document.Document {
 	})
 
 	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
-		document.Links = append(document.Links, e.Attr("href"))
+		document.TotalLinksCount = document.TotalLinksCount + 1
+		link := parsinghelper.ConstructLink(e.Attr("href"), document.Url.String())
+		if link == "" {
+			return
+		}
+		document.Links = append(document.Links, link)
 	})
 
 	c.OnResponse(func(r *colly.Response) {
@@ -105,9 +110,14 @@ func ScrapeLink(link string) document.Document {
 		})
 
 		e.ForEach("a", func(_ int, elem *colly.HTMLElement) {
-			linkTexts = append(linkTexts, helpers.CleanUpString(elem.Text))
 			parsinghelper.CountNumberOfOutboundLinks(&numberOfOutboundLinks, elem)
 			parsinghelper.CountNumberOfInboundLinks(&numberOfInboundLinks, elem)
+
+			linkText := helpers.CleanUpString(elem.Text)
+			if linkText == "" {
+				return
+			}
+			linkTexts = append(linkTexts, linkText)
 		})
 
 		e.ForEach("script", func(_ int, elem *colly.HTMLElement) {

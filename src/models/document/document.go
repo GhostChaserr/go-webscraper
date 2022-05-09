@@ -28,6 +28,7 @@ type TwitterTags struct {
 }
 
 type Document struct {
+	Link            string         `json:"link"`
 	TotalLinksCount int            `json:"totalLinksCount"`
 	Heading         string         `json:"heading"`
 	Language        string         `json:"language"`

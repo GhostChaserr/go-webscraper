@@ -29,8 +29,7 @@ func CleanUpStringsArray(strArray []string) []string {
 }
 
 func CleanUpString(str string) string {
-
-	cleanStr := strings.ReplaceAll(str, "\n", "")
+	cleanStr := strings.Replace(str, "\\", "", -1)
 	cleanStr = strings.ReplaceAll(cleanStr, ",", " ")
 	cleanStr = strings.TrimSpace(cleanStr)
 	return cleanStr

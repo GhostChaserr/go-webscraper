@@ -54,6 +54,22 @@ func TransformLinks(links []string, domain string) []string {
 	return lnks
 }
 
+func ConstructLink(rawLink string, domainWithProtocol string) (link string) {
+	if IsFullLink(rawLink) {
+		return rawLink
+	}
+
+	// Construct array with single link and remove first / since domain.url includes last slash
+	linksArr := make([]string, 0)
+	linksArr = append(linksArr, rawLink)
+
+	constructedLinks := TransformLinks(linksArr, domainWithProtocol)
+	if len(constructedLinks) == 0 {
+		return ""
+	}
+	return constructedLinks[0]
+}
+
 func GetWordsCount(words []string) map[string]int {
 	wordCounts := make(map[string]int)
 	for _, w := range words {
@@ -75,6 +91,9 @@ func CountNumberOfExternalScripts(numberOfExternalScripts *int, elem *colly.HTML
 }
 
 func CountNumberOfInternalScripts(numberOfInternalScripts *int, elem *colly.HTMLElement) {
+	// Basic check
+	// External: https://cdn.com/app.js
+	// Internal: /app.js
 	if strings.HasPrefix(elem.Attr("src"), "/") || len(elem.Attr("src")) == 0 {
 		*numberOfInternalScripts = *numberOfInternalScripts + 1
 	}

@@ -13,17 +13,13 @@ import (
 
 func main() {
 
-	port := "5300"
-
-	fmt.Println("Registering routes .....")
+	port := "4000"
 	router := mux.NewRouter()
-
-	// stopper := scraperjob.ScrapeDomainsJob()
-	// defer close(stopper)
 
 	// Controllers
 	router.HandleFunc("/", loggermiddleware.LoggerMiddleware(webservice.HealthCheckHandler())).Methods("GET")
 	router.HandleFunc("/scrape-link", webservice.ScrapeLink()).Methods("POST")
+	router.HandleFunc("/scrape-link", webservice.ScrapeLink()).Methods("GET")
 
 	// Registering cron Jobs
 
