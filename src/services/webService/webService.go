@@ -2,8 +2,10 @@ package webservice
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
+	"github.com/google/uuid"
 	scrapelinkpayload "websitepreview.com/app/src/payloads/scrapeLinkPayload"
 	scrapeservice "websitepreview.com/app/src/services/scrapingService"
 )
@@ -15,9 +17,22 @@ func HealthCheckHandler() http.HandlerFunc {
 	}
 }
 
+func GenerateSessionId() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		uuid := uuid.New()
+		uuidStr := uuid.String()
+		w.WriteHeader(200)
+		w.Header().Set("Content-type", "application/json")
+		json.NewEncoder(w).Encode(map[string]string{"sessionId": uuidStr})
+	}
+}
+
 func ScrapeLink() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-type", "application/json")
+
+		sessionId := r.Header.Get("Authorization")
+		fmt.Println(sessionId)
 
 		if r.Method == "POST" {
 			var p scrapelinkpayload.ScrapeLinkPayload

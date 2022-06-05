@@ -1,1 +1,1 @@
-go run src/app/main.go
+gow run src/app/main.go

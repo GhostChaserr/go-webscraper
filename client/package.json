@@ -15,14 +15,17 @@
     "ahooks": "^3.3.10",
     "axios": "^0.27.2",
     "framer-motion": "^6",
+    "js-cookie": "^3.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-query": "^3.39.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "shortid": "^2.2.16"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@types/shortid": "^0.0.29",
     "@vitejs/plugin-react": "^1.3.0",
     "typescript": "^4.6.3",
     "vite": "^2.9.7"

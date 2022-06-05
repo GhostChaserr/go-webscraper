@@ -7,11 +7,15 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import ShortPreview from "@/components/ShortPreview";
 import { useLocalStorageState } from "ahooks";
+import Cookies from "js-cookie";
 
 const Page: FC = () => {
-  const [cachedPDocuments, setCachedPDocument] = useLocalStorageState('use-local-storage-state-demo1', {
-    defaultValue: '[]',
-  })
+  const [cachedPDocuments, setCachedPDocument] = useLocalStorageState(
+    "use-local-storage-state-demo1",
+    {
+      defaultValue: "[]",
+    }
+  );
   const [pageDocument, setPageDocument] = useState<PageDocument>();
   const [link, setLink] = useState<string>();
   const mutation = useMutation((payload: ScrapeLinkPayload) => {
@@ -23,7 +27,9 @@ const Page: FC = () => {
       if (!link) return;
       const data = await mutation.mutateAsync({ link });
       setPageDocument(data.data);
-      setCachedPDocument(JSON.stringify([...JSON.parse(cachedPDocuments), data.data]))
+      setCachedPDocument(
+        JSON.stringify([...JSON.parse(cachedPDocuments), data.data])
+      );
     } catch (error) {
       console.log(error);
     }
